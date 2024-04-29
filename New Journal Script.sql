@@ -188,10 +188,10 @@ BEGIN
 								      C.ACC_ID AS ACC_ID,
 								      C.DESCRIPTION AS DESCRIPTION,
 								      CASE
-										WHEN (A.GL_FLAG = 26) OR (A.GL_FLAG = 102) OR (A.GL_FLAG = '203') OR (A.GL_FLAG = 103) OR (A.GL_FLAG = 105) THEN A.AMOUNT
+										WHEN (A.GL_FLAG = 26) OR (A.GL_FLAG = 201) OR (A.GL_FLAG = '203') OR (A.GL_FLAG = 103) OR (A.GL_FLAG = 105) THEN A.AMOUNT
 								      END AS DEBIT,
 								      CASE
-										WHEN (A.GL_FLAG= 101) OR (A.GL_FLAG = 23) OR (A.GL_FLAG=201) OR (A.GL_FLAG = 104) OR (A.GL_FLAG = 106) THEN A.AMOUNT
+										WHEN (A.GL_FLAG= 101) OR (A.GL_FLAG = 23) OR (A.GL_FLAG=102) OR (A.GL_FLAG = 104) OR (A.GL_FLAG = 106) THEN A.AMOUNT
 								      END AS CREDIT,
 								      A.ID
 							     FROM (SELECT * FROM payments_accounting 
@@ -248,10 +248,10 @@ BEGIN
 								      C.ACC_ID AS ACC_ID,
 								      C.DESCRIPTION AS DESCRIPTION,
 								      CASE
-										WHEN (A.GL_FLAG = 107) OR (A.GL_FLAG=205) OR (A.GL_FLAG = 110) OR (A.GL_FLAG = 113) OR (A.GL_FLAG = 112)OR (A.GL_FLAG = 5551)  THEN A.AMOUNT
+										WHEN (A.GL_FLAG = 107) OR (A.GL_FLAG=204) OR (A.GL_FLAG=205) OR (A.GL_FLAG = 110) OR (A.GL_FLAG = 113) OR (A.GL_FLAG = 112)OR (A.GL_FLAG = 5551)  THEN A.AMOUNT
 								      END AS DEBIT,
 								      CASE
-										WHEN (A.GL_FLAG = 29) OR (A.GL_FLAG = 28) OR (A.GL_FLAG = 204) OR (A.GL_FLAG=108) OR (A.GL_FLAG = 109) OR (A.GL_FLAG = 111) OR (A.GL_FLAG = 114) OR (A.GL_FLAG = 5552) THEN A.AMOUNT
+										WHEN (A.GL_FLAG = 29) OR (A.GL_FLAG = 28) OR (A.GL_FLAG=108) OR (A.GL_FLAG = 109) OR (A.GL_FLAG = 111) OR (A.GL_FLAG = 114) OR (A.GL_FLAG = 5552) THEN A.AMOUNT
 								      END AS CREDIT,
 								      A.ID
 							     FROM (SELECT * FROM payments_accounting 
