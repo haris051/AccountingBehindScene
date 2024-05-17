@@ -702,7 +702,6 @@ DELIMITER ;
 /*Sales_Accounting*/
 
 /*stock_accounting*/
-use demoibs;
 drop procedure if Exists PROC_STOCK_IN_ACCOUNT_DETAIL;
 DELIMITER $$
 CREATE PROCEDURE `PROC_STOCK_IN_ACCOUNT_DETAIL` (P_COL_NAME TEXT,
