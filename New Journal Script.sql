@@ -711,7 +711,7 @@ BEGIN
 
 	Declare FormFlag Text Default '';
 
-    set FormFlag='StockIn';
+    set FormFlag="'StockIn','TransientInventory'";
     
 	IF P_COL_NAME = "" THEN
 		SET P_COL_NAME = '-1';
@@ -737,10 +737,10 @@ BEGIN
 								      C.ACC_ID AS ACC_ID,
 								      C.DESCRIPTION AS DESCRIPTION,
 								      CASE
-										WHEN (A.GL_FLAG = 64) THEN A.AMOUNT
+										WHEN (A.GL_FLAG = 64) OR (A.GL_FLAG = 5559) THEN A.AMOUNT
 								      END AS DEBIT,
 								      CASE
-										WHEN (A.GL_FLAG = 62) THEN A.AMOUNT
+										WHEN (A.GL_FLAG = 62) OR (A.GL_FLAG = 5558) THEN A.AMOUNT
 								      END AS CREDIT,
 								      A.ID
 							     FROM (SELECT * FROM stock_accounting 
@@ -750,7 +750,7 @@ BEGIN
 												ELSE FALSE
 											  END
                                               and
-                                              Form_FLAG='",FormFlag,"'
+                                              Form_FLAG in (",FormFlag,")
                                               ) A 
 								      JOIN ACCOUNTS_ID C ON (A.GL_ACC_ID = C.ID)
 						     ORDER BY A.ID) VV
