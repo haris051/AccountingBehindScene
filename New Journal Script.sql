@@ -711,7 +711,7 @@ BEGIN
 
 	Declare FormFlag Text Default '';
 
-    set FormFlag="'StockIn','TransientInventory'";
+    set FormFlag="'StockIn', 'TransientInventory'";
     
 	IF P_COL_NAME = "" THEN
 		SET P_COL_NAME = '-1';
@@ -731,32 +731,31 @@ BEGIN
 							  DESCRIPTION AS DESCRIPTION, 
                               SUM(DEBIT) AS DEBIT, 
                               SUM(CREDIT) AS CREDIT
-                             
 					     FROM (SELECT A.FORM_ID,
 								      A.FORM_DETAIL_ID,
 								      C.ACC_ID AS ACC_ID,
 								      C.DESCRIPTION AS DESCRIPTION,
 								      CASE
-										WHEN (A.GL_FLAG = 64) OR (A.GL_FLAG = 5559) THEN A.AMOUNT
+											WHEN (A.GL_FLAG = 64) OR (A.GL_FLAG = 5559) THEN A.AMOUNT
 								      END AS DEBIT,
 								      CASE
-										WHEN (A.GL_FLAG = 62) OR (A.GL_FLAG = 5558) THEN A.AMOUNT
+											WHEN (A.GL_FLAG = 62) OR (A.GL_FLAG = 5558) THEN A.AMOUNT
 								      END AS CREDIT,
 								      A.ID
-							     FROM (SELECT * FROM stock_accounting 
+							     FROM (SELECT * FROM STOCK_ACCOUNTING 
 										WHERE CASE
-												WHEN ",P_COL_NAME," <> -1 AND ",P_COL_VALUE," <> -1 THEN ",P_COL_NAME," = '",P_COL_VALUE,"'
-												WHEN ",P_COL_NAME," = -1 AND ",P_COL_VALUE," = -1 THEN TRUE
-												ELSE FALSE
+													WHEN ",P_COL_NAME," <> -1 AND ",P_COL_VALUE," <> -1 THEN ",P_COL_NAME," = '",P_COL_VALUE,"'
+													WHEN ",P_COL_NAME," = -1 AND ",P_COL_VALUE," = -1 THEN TRUE
+													ELSE FALSE
 											  END
-                                              and
-                                              Form_FLAG in (",FormFlag,")
-                                              ) A 
+										  AND FORM_FLAG IN (",FormFlag,")
+									  ) A 
 								      JOIN ACCOUNTS_ID C ON (A.GL_ACC_ID = C.ID)
 						     ORDER BY A.ID) VV
 					 GROUP BY ",P_GROUP_BY,";");
+                     
     PREPARE STMP FROM @QRY;
-    EXECUTE STMP ;
+    EXECUTE STMP;
     DEALLOCATE PREPARE STMP;
     
 END $$
@@ -978,13 +977,12 @@ BEGIN
     IF P_GROUP_BY = "" THEN
 		SET P_GROUP_BY = 'ID';
     END IF;
-	SET P_GROUP_BY = 'ACC_ID,DESCRIPTION,GL_FLAG';
+	SET P_GROUP_BY = 'ACC_ID, DESCRIPTION';
 
  SET @QRY = CONCAT("SELECT ACC_ID AS ACC_ID, 
 							  DESCRIPTION AS DESCRIPTION, 
                               SUM(DEBIT) AS DEBIT, 
-                              SUM(CREDIT) AS CREDIT,
-                              GL_FLAG
+                              SUM(CREDIT) AS CREDIT 
 					     FROM (SELECT A.FORM_ID,
 								      A.FORM_DETAIL_ID,
 								      C.ACC_ID AS ACC_ID,
